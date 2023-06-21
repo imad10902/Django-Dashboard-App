@@ -13,3 +13,7 @@ class CustomUser(AbstractUser):
     pincode= models.IntegerField(null=True, blank=False)
     image= models.ImageField(upload_to='image', null=True, blank=True)
     role= models.CharField(max_length=10, choices=ROLE_CHOICES, default='doctor')
+
+
+# modifying user model with new fields
+# choices keyword to provide dropdown to choose the role

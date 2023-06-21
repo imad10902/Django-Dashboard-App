@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from .models import CustomUser
 
-# Create your views here.
 
 def home(request):
     return render(request, 'base/home.html')
@@ -18,14 +17,14 @@ def loginPage(request):
         password = request.POST.get('password')
 
         try:
-            user = CustomUser.objects.get(username=username)
+            user = CustomUser.objects.get(username=username) #check if username in the database
         except:
             messages.error(request, "User does not exist")
     
-        user= authenticate(request, username=username, password=password)#authentication step
+        user= authenticate(request, username=username, password=password) #authentication step
 
         if user is not None:
-            login(request, user)#this user object is being used in templates
+            login(request, user) #this user object is being used in templates
             return redirect('home')
         else:
             messages.error(request, "Username or password does not exist")
@@ -40,8 +39,8 @@ def registerPage(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            user=form.save(commit=False)
-            user.username = user.username.lower()
+            user=form.save(commit=False) #create user class instance but not push to database
+            user.username = user.username.lower() #convert into lowercase to ease searching while logging in
             user.save()
             login(request, user)
             return redirect('home')
